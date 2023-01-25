@@ -1,0 +1,8 @@
+com\example\demo\DemoApplication.class
+com\example\demo\ControllerInteger.class
+com\example\demo\biblioteca\Tesserati.class
+com\example\demo\ServiceInteger.class
+com\example\demo\biblioteca\LibroController.class
+com\example\demo\biblioteca\TesseratiRowMapper.class
+com\example\demo\biblioteca\TesseratiService.class
+com\example\demo\biblioteca\TesseratiController.class
