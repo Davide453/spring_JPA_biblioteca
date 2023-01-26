@@ -1,10 +1,21 @@
 package com.example.demo.biblioteca.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Table(name = "libro", schema = "biblioteca")
+@Entity
 public class Libro {
-	private int id;
+	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Integer idlibro;
 	private String titolo;
 	private String genere;
-	private int prenotato;
+	@Column(nullable = true)
+	private Integer prenotato;
 
 	public Libro() {
 
@@ -13,22 +24,23 @@ public class Libro {
 	public Libro(String titolo, String genere) {
 		this.titolo = titolo;
 		this.genere = genere;
-		
+
 	}
 
-	public Libro(int id, String titolo, String genere, int prenotato) {
-		this.id = id;
+	public Libro(Integer idlibro, String titolo, String genere, Integer prenotato) {
+		this.idlibro = idlibro;
 		this.titolo = titolo;
 		this.genere = genere;
 		this.prenotato = prenotato;
+
 	}
 
-	public int getId() {
-		return id;
+	public Integer getIdlibro() {
+		return idlibro;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdlibro(Integer idlibro) {
+		this.idlibro = idlibro;
 	}
 
 	public String getTitolo() {
@@ -43,21 +55,22 @@ public class Libro {
 		return genere;
 	}
 
-	public int getPrenotato() {
-		return prenotato;
-	}
-
-	public void setPrenotato(int prenotato) {
-		this.prenotato = prenotato;
-	}
-
 	public void setGenere(String genere) {
 		this.genere = genere;
 	}
 
+	public Integer getPrenotato() {
+		return prenotato;
+	}
+
+	public void setPrenotato(Integer prenotato) {
+		this.prenotato = prenotato;
+	}
+
 	@Override
 	public String toString() {
-		return "Libro [id=" + id + ", titolo=" + titolo + ", genere=" + genere + ", prenotato=" + prenotato + "]";
+		return "Libro [idlibro=" + idlibro + ", titolo=" + titolo + ", genere=" + genere + ", prenotato=" + prenotato
+				+ "]";
 	}
 
 }

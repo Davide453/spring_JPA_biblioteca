@@ -1,44 +1,60 @@
 package com.example.demo.biblioteca.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.biblioteca.LibroRowMapper;
+import com.example.demo.biblioteca.LibroRepository;
 import com.example.demo.biblioteca.model.Libro;
 
 @Service
 public class LibroService {
 	@Autowired
-	private JdbcTemplate jdbcTemplate; // nuovo bean spring
-	private LibroRowMapper libroRow = new LibroRowMapper();
+	private LibroRepository libroRepo;
 
 	public List<Libro> getAllLibro() {
 
-		List<Libro> list = jdbcTemplate.query("select * from biblioteca.libro", libroRow);
-		return list;
+		return libroRepo.findAll();
+
 	}
 
-	public List<Libro> getLibroById(int id) {
-		List<Libro> list = jdbcTemplate.query("select * from biblioteca.libro where idlibro=?", libroRow, id);
+	public Libro getLibroById(Integer id) {
+		return libroRepo.findById(id).orElse(null);
 
-		return list;
 	}
 
 	public void insertLibro(Libro l) {
-		jdbcTemplate.update("insert into biblioteca.libro (titolo,genere) values (?, ?);", l.getTitolo(),
-				l.getGenere());
+
+		libroRepo.save(l);
 	}
 
 	public void updateLibro(Libro l) {
-		jdbcTemplate.update("UPDATE  biblioteca.libro set titolo=?, genere=?,prenotato=? where idlibro=?",
-				l.getTitolo(), l.getGenere(), l.getPrenotato(), l.getId());
+		libroRepo.save(l);
 	}
 
-	public void deleteLibro(int id) {
-		jdbcTemplate.update("DELETE from biblioteca.libro where idlibro=?", id);
+	public void deleteLibro(Integer id) {
+		libroRepo.deleteById(id);
+
 	}
 
+//JPA KEYWORDS
+	public List<Libro> getLibroByName(String titolo) {
+		return libroRepo.findByTitolo(titolo);
+	}
+
+	public List<Libro> getLibroByContainsName(String titolo) {
+		return libroRepo.findByTitoloContains(titolo);
+	}
+
+	// NATIVE QUERY
+	public List<Libro> getLibroByContainsNameNativeQ(String titolo) {
+		return libroRepo.getByTitoloPresenteNative(titolo);
+	}
+
+	// JPQL
+	public List<Libro> getLibroByContainsNameJPQL(String titolo) {
+		return libroRepo.getByTitoloPresenteJPQL(titolo);
+	}
 }

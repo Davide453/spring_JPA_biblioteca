@@ -12,7 +12,7 @@ public class TesseratiRowMapper implements RowMapper<Tesserati> {
 	@Override
 	public Tesserati mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Tesserati tesserato = new Tesserati();
-		tesserato.setId(rs.getInt("idtesserati"));
+		tesserato.setIdtesserati(rs.getInt("idtesserati"));
 		tesserato.setNome(rs.getString("nome"));
 		tesserato.setCognome(rs.getString("Cognome"));
 		return tesserato;

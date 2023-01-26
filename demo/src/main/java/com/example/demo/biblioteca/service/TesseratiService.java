@@ -3,43 +3,51 @@ package com.example.demo.biblioteca.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.biblioteca.TesseratiRowMapper;
+import com.example.demo.biblioteca.TesseratiRepository;
 import com.example.demo.biblioteca.model.Tesserati;
 
 @Service
 public class TesseratiService {
 	@Autowired
-	private JdbcTemplate jdbcTemplate; // nuovo bean spring
-	private TesseratiRowMapper tesseratiRow = new TesseratiRowMapper();
+	TesseratiRepository tesseratiRepo;
 
 	public List<Tesserati> getAllTesserati() {
-		List<Tesserati> list = jdbcTemplate.query("select * from biblioteca.tesserati", tesseratiRow);
-		return list;
+		return tesseratiRepo.findAll();
 	}
 
-	public List<Tesserati> getTesseratiById(int id) {
+	public Tesserati getTesseratiById(Integer id) {
 
-		List<Tesserati> list = jdbcTemplate.query("select * from biblioteca.tesserati where idtesserati=?",
-				tesseratiRow, id);
-
-		return list;
+		return tesseratiRepo.findById(id).orElse(null);
 	}
 
 	public void insertTesserati(Tesserati t) {
-		jdbcTemplate.update("insert into biblioteca.tesserati (nome,cognome) values (?, ?);", t.getNome(),
-				t.getCognome());
+		t.setRichiami(0);
+		tesseratiRepo.save(t);
 	}
 
 	public void updateTesserati(Tesserati t) {
-		jdbcTemplate.update("UPDATE  biblioteca.tesserati set nome=?, cognome=? where idtesserati=?", t.getNome(),
-				t.getCognome(), t.getId());
+		tesseratiRepo.save(t);
 	}
 
-	public void deleteTesserati(int id) {
-		jdbcTemplate.update("DELETE from biblioteca.tesserati where idtesserati=?", id);
+	public void deleteTesserati(Integer id) {
+		tesseratiRepo.deleteById(id);
 	}
 
+// JPA KEYWORDS
+	public List<Tesserati> getTesseratiByRichiami(Integer richiami) {
+		return tesseratiRepo.findAllByRichiamiGreaterThanEqual(richiami);
+	}
+
+	// NATIVE QUERY
+	public List<Tesserati> getTesseratiByRichiamiNative(Integer richiami) {
+		return tesseratiRepo.getByRichiamiNative(richiami);
+	}
+
+	// NATIVE QUERY
+	public List<Tesserati> getTesseratyByRichiamiJPQL(Integer richiami) {
+		return tesseratiRepo.getByRichiamiJPQL(richiami);
+	}
+	
 }

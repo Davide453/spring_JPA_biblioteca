@@ -1,10 +1,19 @@
 package com.example.demo.biblioteca.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Table(name = "tesserati", schema = "biblioteca")
+@Entity
 public class Tesserati {
 
-	private int id;
+	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Integer idtesserati;
 	private String nome;
 	private String cognome;
+	private Integer richiami;
 
 	public Tesserati() {
 	}
@@ -14,18 +23,20 @@ public class Tesserati {
 		this.cognome = cognome;
 	}
 
-	public Tesserati(int id, String nome, String cognome) {
-		this.id = id;
+	public Tesserati(Integer idtesserati, String nome, String cognome, Integer richiami) {
+		super();
+		this.idtesserati = idtesserati;
 		this.nome = nome;
 		this.cognome = cognome;
+		this.richiami = richiami;
 	}
 
-	public int getId() {
-		return id;
+	public Integer getIdtesserati() {
+		return idtesserati;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdtesserati(Integer idtesserati) {
+		this.idtesserati = idtesserati;
 	}
 
 	public String getNome() {
@@ -44,9 +55,12 @@ public class Tesserati {
 		this.cognome = cognome;
 	}
 
-	@Override
-	public String toString() {
-		return "Tesserati [id=" + id + ", nome=" + nome + ", cognome=" + cognome + "]";
+	public Integer getRichiami() {
+		return richiami;
+	}
+
+	public void setRichiami(Integer richiami) {
+		this.richiami = richiami;
 	}
 
 }
